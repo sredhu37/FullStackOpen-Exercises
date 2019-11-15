@@ -1,5 +1,17 @@
 # Exercises in Part 0
 
+## 0.1
+
+* Went through [HTML Basics](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics)
+
+## 0.2
+
+* Went through [CSS Basics](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics)
+
+## 0.3
+
+* Went through [First HTML form](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Your_first_HTML_form)
+
 ## 0.4
 
 ![Exercise 0.4](https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgRXhlcmNpc2UgMC40Cgpub3RlIG92ZXIgQnJvd3NlcjogQ2xpY2tlZCBTYXZlCgAPBy0-U2VydmVyOiBIVFRQIFBPU1QgIGh0dHBzOi8vZnVsbHN0YWNrLWV4YW1wbGVhcHAuaGVyb2t1YXBwLmNvbS9uZXdfbm90ZQBlCwBJCEFkZCB0aGUgZGF0YSByZWNlaXZlZCBmcm9tAIELCCB0bwAdBWV4aXN0aW5nICdub3RlcycgYXJyYXkKAIEUBi0-AIE4CQCBHgUzMDIgKFJlZGlyZWN0KQCBMRdHRVQAgRktb3RlcwBcFE1MIGNvZACCFhgANy9tYWluLmNzAFYTABEJAB5KagBPGGpzAIQIFEpTAIFkBSBzdGFydHMgZXhlY3V0aW9uAIIaRmRhdGEuanNvbgCDQhIAEQoAhR8TAIQgCHByb2Nlc3MAhEoFanNvbgCETgZhbmQgcmVuZGVyABQGcGFnZQoK&s=napkin)
