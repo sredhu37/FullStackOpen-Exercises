@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
 import Persons from './Persons';
 
 const App = () => {
-    const [ persons, setPersons] = useState([
-        {
-            id: 1,
-            name: 'Arto Hellas',
-            number: '1234567890'
-        }
-    ]);
+    const [ persons, setPersons] = useState([]);
 
     const [ newName, setNewName ] = useState('');
     const [ newNumber, setNewNumber ] = useState('0000000000');
     const [ searchName, setNewSearchName ] = useState('');
+
+    const fetchDataFromServer = () => {
+        console.log('Before fetching data from server');
+        axios
+        .get('http://localhost:3001/persons')
+        .then((response) => {
+            console.log(`Got response: ${response.data}`);
+            setPersons(response.data);
+        })
+        .catch((error) => {
+            console.log(`Cannot fetch data from server: ${error}`);
+        });
+        console.log('Before fetching data from server');
+    }
+
+    useEffect(fetchDataFromServer, []);
 
     const submitForm = (event) => {
         event.preventDefault();
@@ -47,6 +58,7 @@ const App = () => {
     }
 
     const updateSearchResults = () => {
+        console.log(`Type of persons: ${persons}`);
         const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(searchName.toLowerCase()));
         return filteredPersons.map(person => (<p key={person.id}>{person.name} {person.number}</p>));
     }
