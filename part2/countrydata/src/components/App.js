@@ -34,8 +34,18 @@ function App() {
     return (
         <div>
             <SearchFilter value={searchValue} onChange={searchChangeHandler} />
-            <Countries countries={matchingCountries} />
-            {/* <CountryDetails country={}/> */}
+
+            {(matchingCountries.length > 10 && matchingCountries.length !== 1) ? (
+                    <p>Too many matches, specify another filter</p>
+                ) : (
+                    <Countries countries={matchingCountries} />
+                )
+            }
+
+            {matchingCountries.length === 1 &&
+                <CountryDetails country={matchingCountries[0]} />
+            }
+
         </div>
     );
 }
