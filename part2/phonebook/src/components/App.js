@@ -3,6 +3,7 @@ import Filter from './Filter';
 import PersonForm from './PersonForm';
 import Persons from './Persons';
 import personsService from '../services/persons';
+import Notification from './Notification';
 
 const App = () => {
     const [ persons, setPersons] = useState([]);
@@ -10,19 +11,28 @@ const App = () => {
     const [ newName, setNewName ] = useState('');
     const [ newNumber, setNewNumber ] = useState('0000000000');
     const [ searchName, setNewSearchName ] = useState('');
+    const [ notificationMessage, setNotificationMessage ] = useState('');
+    const [ notificationType, setNotificationType ] = useState('');
+
+    const displayNotification = (msg, type) => {
+        setNotificationType(type);
+        setNotificationMessage(msg);
+
+        setTimeout(() => {
+            setNotificationType('');
+            setNotificationMessage('');
+        }, 5000)
+    }
 
     const fetchDataFromServer = () => {
-        console.log('Before fetching data from server');
         personsService
             .getAll()
             .then((response) => {
-            console.log(`Got response: ${response.data}`);
             setPersons(response.data);
             })
             .catch((error) => {
-                console.log(`Cannot fetch data from server: ${error}`);
+                displayNotification(`Cannot fetch data from server: ${error}`, 'ERROR');
             });
-        console.log('Before fetching data from server');
     }
 
     useEffect(fetchDataFromServer, []);
@@ -43,9 +53,11 @@ const App = () => {
                     setPersons(persons.concat(response.data));
                     setNewName('');
                     setNewNumber('0000000000');
+
+                    displayNotification(`Added ${response.data.name}`, 'SUCCESS');
                 })
                 .catch(error => {
-                    console.log(`Error while sending new user to server: ${error}`);
+                    displayNotification(`Error while sending new user to server: ${error}`, 'ERROR');
                 });
         } else {
             const result = window.confirm(`newName is already added to phonebook, replace the old number with a new one?`);
@@ -62,21 +74,21 @@ const App = () => {
                             }
                             return person;
                         }));
+
+                        displayNotification(`Updated ${response.data.name}`, 'SUCCESS');
                     })
                     .catch(error => {
-                        console.log(`Error in updating the number for ${existingPerson.name}`);
+                        displayNotification(`Error in updating the number for ${existingPerson.name}`, 'ERROR');
                     })
             }
         }
     }
 
     const handleNameChange = (event) => {
-        console.log(event.target.value);
         setNewName(event.target.value);
     }
 
     const handleNumberChange = (event) => {
-        console.log(event.target.value);
         setNewNumber(event.target.value);
     }
 
@@ -87,19 +99,20 @@ const App = () => {
             .deleteOne(id)
             .then(response => {
                 setPersons(persons.filter(person => person.id !== id));
+                displayNotification(`Deleted ${name}`, 'INFO');
             })
-            .catch(error => console.log(`Error in deleting the person: ${error}`));
+            .catch(error => {
+                displayNotification(`Error in deleting the person: ${error}`, 'ERROR');
+            });
         }
     }
 
     const updateSearchResults = () => {
-        console.log(`Type of persons: ${persons}`);
         const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(searchName.toLowerCase()));
         return filteredPersons.map(person => (<p key={person.id}>{person.name} {person.number} <button onClick={() => deletePerson(person.id, person.name)}>delete</button></p>));
     }
 
     const handleSearchNameChange = (event) => {
-        console.log(event.target.value);
         setNewSearchName(event.target.value);
     }
 
@@ -110,7 +123,7 @@ const App = () => {
             <Filter searchName={searchName} handleSearchNameChange={handleSearchNameChange}/>
 
             <h3>add a new</h3>
-
+            <Notification message={notificationMessage} type={notificationType}/>
             <PersonForm submitForm={submitForm} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
 
             <h2>Numbers</h2>
